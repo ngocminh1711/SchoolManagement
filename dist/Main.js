@@ -35,8 +35,8 @@ let userManagement = new UserManagement_1.UserManagement();
 let schoolManagement = new SchoolManagement_1.SchoolManagement();
 let admin = new Admin_1.Admin('admin', 'admin');
 userManagement.addAdmin(admin);
-let student1 = new Student_1.Student('A05', 'Ngoc', 29, 'Quan Tri Kinh Doanh');
-let student2 = new Student_1.Student('A01', 'Minh', 25, 'Cong Nghe Thong Tin');
+let student1 = new Student_1.Student('A05', 'Ngoc', 29, 'Quan Tri Kinh Doanh', 6);
+let student2 = new Student_1.Student('A01', 'Minh', 25, 'Cong Nghe Thong Tin', 9);
 let teacher1 = new Teacher_1.Teacher('T01', 'Hoang Dao Thuy', 30, 'Quan Tri Kinh Doanh', 28);
 let teacher2 = new Teacher_1.Teacher('T02', 'Vu Minh Phuong', 35, 'Cong Nghe Thong Tin', 26);
 let teacher3 = new Teacher_1.Teacher('T03', 'Vu Trong Phung', 32, 'Cong Nghe Thong Tin', 25);
@@ -55,7 +55,8 @@ function inputStudent() {
     let nameStudent = rl.question('Nhập tên Học Sinh: ');
     let ageStudent = +rl.question('Nhập tuổi Học Sinh: ');
     let facutlyStudent = rl.question('Nhập tên Khoa: ');
-    let student = new Student_1.Student(idStudent, nameStudent, ageStudent, facutlyStudent);
+    let scoreStudent = +rl.question('Nhập điểm: ');
+    let student = new Student_1.Student(idStudent, nameStudent, ageStudent, facutlyStudent, scoreStudent);
     return student;
 }
 function inputTeacher() {
@@ -176,6 +177,8 @@ function menuOfAdmin() {
             console.log('1.Tạo mới sinh viên.');
             console.log('2.Tìm kiếm sinh viên.');
             console.log('3.Xóa sinh viên.');
+            console.log('4.Xếp loại học lực.');
+            console.log('0.Back');
             let choiceOfStudent = +rl.question('Nhập lựa chọn: ');
             switch (choiceOfStudent) {
                 case 1:
@@ -207,6 +210,15 @@ function menuOfAdmin() {
                             break;
                     }
                     break;
+                case 3:
+                    let nameStudentWannaDelete = rl.question('Nhập tên Sinh Viên muốn xóa: ');
+                    schoolManagement.deleteStudentByName(nameStudentWannaDelete);
+                    break;
+                case 4:
+                    schoolManagement.rankedFaculty();
+                    break;
+                case 0:
+                    break;
             }
             break;
         case 5:
@@ -236,5 +248,4 @@ while (choice != 2) {
         default:
             break;
     }
-    break;
 }

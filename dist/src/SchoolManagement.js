@@ -126,6 +126,15 @@ class SchoolManagement {
             }
         });
     }
+    deleteStudentByName(name) {
+        let flag = -1;
+        this.students.forEach((student, index) => {
+            if (student.name == name) {
+                flag++;
+                this.students.splice(index, 1);
+            }
+        });
+    }
     totalWorkDay() {
         let totalWorkDay = 0;
         this.teachers.forEach((teacher, index) => {
@@ -138,6 +147,19 @@ class SchoolManagement {
                 }
             });
             console.log('Lương của giáo viên ' + this.teachers[index].name + ' là: ' + totalWorkDay);
+        });
+    }
+    rankedFaculty() {
+        this.students.forEach((student, index) => {
+            if (student.score > 8) {
+                console.log('Sinh viên ' + this.students[index].name + this.students[index].faculty + ' xếp hạng A');
+            }
+            else if (student.score > 6 && student.score <= 8) {
+                console.log('Sinh viên ' + this.students[index].name + this.students[index].faculty + ' xếp hạng B');
+            }
+            else {
+                console.log('Sinh viên ' + this.students[index].name + 'học Khoa' + this.students[index].faculty + 'xếp hạng C');
+            }
         });
     }
 }
