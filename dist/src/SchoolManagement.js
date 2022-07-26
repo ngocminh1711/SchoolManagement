@@ -5,14 +5,16 @@ class SchoolManagement {
     constructor() {
         this.teachers = [];
         this.students = [];
-    }
-    showAllInFo() {
+        this.wages = [];
     }
     addTeacher(teacher) {
         this.teachers.push(teacher);
     }
     addStudent(student) {
         this.students.push(student);
+    }
+    addWage(wage) {
+        this.wages.push(wage);
     }
     showInfoTeacher() {
         console.table(this.teachers);
@@ -53,18 +55,56 @@ class SchoolManagement {
         });
         console.table(newTeacherList);
     }
-    updateTeacher() {
+    updateTeacher(name, newTeacher) {
+        this.teachers.forEach((teacher, index) => {
+            if (teacher.name == name) {
+                this.teachers[index] = newTeacher;
+            }
+            return this.teachers[index];
+        });
+    }
+    updateWage(index, newWage) {
+        this.wages[index] = newWage;
+    }
+    sortByFaculty(faculty) {
+        let newSortByFaculty = [];
+        let flag1 = -1;
+        let flag2 = -1;
+        this.teachers.forEach((teacher, index) => {
+            if (teacher.faculty == faculty) {
+                newSortByFaculty.push(teacher);
+                flag1++;
+            }
+        });
+        this.students.forEach((student, index) => {
+            if (student.faculty == faculty) {
+                newSortByFaculty.push(student);
+                flag2++;
+            }
+        });
+        console.log(newSortByFaculty);
+    }
+    deleteTeacherByName(name) {
+        let flag = -1;
+        this.teachers.forEach((teacher, index) => {
+            if (teacher.name == name) {
+                flag++;
+                this.teachers.splice(index, 1);
+            }
+        });
     }
     totalWorkDay() {
         let totalWorkDay = 0;
         this.teachers.forEach((teacher, index) => {
-            if (teacher.faculty == 'Cong Nghe Thong Tin') {
-                totalWorkDay = this.teachers[index].workday * 300000;
-            }
-            else if (teacher.faculty == 'Quan Tri Kinh Doanh') {
-                totalWorkDay = this.teachers[index].workday * 200000;
-            }
-            console.log('Lương của giáo viên' + this.teachers[index].name + ' là: ' + totalWorkDay);
+            this.wages.forEach((wage) => {
+                if (teacher.faculty == 'Cong Nghe Thong Tin') {
+                    totalWorkDay = this.teachers[index].workday * wage.wageCNTT;
+                }
+                else if (teacher.faculty == 'Quan Tri Kinh Doanh') {
+                    totalWorkDay = this.teachers[index].workday * wage.wageKTQD;
+                }
+            });
+            console.log('Lương của giáo viên ' + this.teachers[index].name + ' là: ' + totalWorkDay);
         });
     }
 }

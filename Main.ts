@@ -5,6 +5,7 @@ import {User} from "./src/User";
 import {SchoolManagement} from "./src/SchoolManagement";
 import {Student} from "./src/Student";
 import {Teacher} from "./src/Teacher";
+import {WageOfTeacher} from "./src/WageOfTeacher";
 
 
 let userManagement = new UserManagement();
@@ -15,10 +16,14 @@ let student1 = new Student('A05','Ngoc',29,'Quan Tri Kinh Doanh');
 let student2 = new Student('A01', 'Minh', 25,'Cong Nghe Thong Tin');
 let teacher1 = new Teacher('T01','Hoang Dao Thuy',30,'Quan Tri Kinh Doanh',28);
 let teacher2 = new Teacher('T02','Vu Minh Phuong',35,'Cong Nghe Thong Tin',26);
+let teacher3 = new Teacher('T03','Vu Trong Phung',32,'Cong Nghe Thong Tin',25);
+let wage = new WageOfTeacher(300000, 200000)
+schoolManagement.addWage(wage);
 schoolManagement.addStudent(student1);
 schoolManagement.addStudent(student2);
 schoolManagement.addTeacher(teacher1);
 schoolManagement.addTeacher(teacher2);
+schoolManagement.addTeacher(teacher3);
 
 let user = new User('user', 'user')
 let choice = -1;
@@ -74,8 +79,12 @@ function menuOfAdmin() {
     console.log('3.Tạo mới giáo viên');
     console.log('4.Tạo mới học sinh');
     console.log('5.Tìm kiếm Giáo Viên');
-    console.log('6.Hiển thị danh sách lương của giáo viên');
-    console.log('7.Back');
+    console.log('6.Xóa giáo viên')
+    console.log('7.Sửa tiền lương Giáo Viên');
+    console.log('8.Hiển thị danh sách lương của giáo viên');
+    console.log('9.Sửa thông tin giáo viên');
+    console.log('10.Sắp xếp thông tin');
+    console.log('0.Back');
     let choiceOfSchoolManagegent = +rl.question('Mời nhập lựa chọn: ');
     switch (choiceOfSchoolManagegent) {
         case 1:
@@ -120,10 +129,35 @@ function menuOfAdmin() {
                     break;
             }
         case 6:
+            console.log('-----Xóa giáo viên-------');
+            let nameTeacherWannaDelete = rl.question('Nhập tên giáo viên muốn sửa: ');
+            schoolManagement.deleteTeacherByName(nameTeacherWannaDelete);
+            break;
+        case 7:
+            console.log('-----Sửa Lương Nhân viên-----')
+            console.log('Bấm 0 Để sửa lương của các khoa');
+            let index = +rl.question('Nhập vị trí muốn thay đổi: ');
+            let wageCNTT = +rl.question('Nhập lương CNTT muốn thay đổi: ');
+            let wageQTKD = +rl.question('Nhập lương QTKD muốn thay đổi: ');
+            let newWage = new WageOfTeacher(wageCNTT, wageQTKD);
+            schoolManagement.updateWage(index, newWage);
+            break;
+        case 8:
             console.log('-----Lương của giáo vien-----');
             schoolManagement.totalWorkDay();
             break;
-        case 7:
+        case 9:
+            console.log('-----Sửa Thông Tin Giáo Viên-----');
+            let name = rl.question('Nhập tên giáo viên cần sửa: ');
+            let newTeacher = inputTeacher();
+            schoolManagement.updateTeacher(name, newTeacher);
+            break;
+        case 10:
+            console.log('-----Sắp xếp theo Khoa-----');
+            let facutly = rl.question('Nhập Khoa muốn sắp xếp: ');
+            schoolManagement.sortByFaculty(facutly);
+            break;
+        case 0:
             displaySignIn();
             break;
     }
@@ -140,12 +174,12 @@ while (choice != 2) {
                 displaySignIn();
                 menuOfAdmin();
             }
+            break;
         case 2:
             break;
         default:
             break;
     }
-
 }
 
 

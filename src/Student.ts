@@ -1,8 +1,9 @@
-import {Teacher} from "./Teacher";
 
-export class Student extends Teacher {
+import {ObjOfSchool} from "./AbsClass/ObjOfSchool";
 
-        constructor(id: string, name: string, age: number, group: string) {
-            super(id, name, age, group);
+export class Student extends ObjOfSchool {
+
+        constructor(id: string, name: string, age: number, faculty: string){
+            super(id, name, age, faculty);
         }
 }
