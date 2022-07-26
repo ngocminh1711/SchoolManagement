@@ -56,6 +56,39 @@ export class SchoolManagement {
         })
         console.table(newTeacherList);
     }
+    searchStudentByID(id: string) {
+        let newStudentList:any[] = [];
+        let flag = -1;
+        this.students.forEach((student,index) => {
+            if(student.id == id) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        })
+        console.table(newStudentList);
+    }
+    searchStudentByName(name: string) {
+        let newStudentList:any[] = [];
+        let flag = -1;
+        this.students.forEach((student,index) => {
+            if(student.name == name) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        })
+        console.table(newStudentList);
+    }
+    searchStudentByFaculty(faculty: string) {
+        let newStudentList:any[] = [];
+        let flag = -1;
+        this.students.forEach((student,index) => {
+            if(student.faculty == faculty) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        })
+        console.table(newStudentList);
+    }
     updateTeacher(name: string, newTeacher: Teacher) {
         this.teachers.forEach((teacher,index) => {
             if(teacher.name == name) {

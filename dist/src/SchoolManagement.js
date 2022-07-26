@@ -55,6 +55,39 @@ class SchoolManagement {
         });
         console.table(newTeacherList);
     }
+    searchStudentByID(id) {
+        let newStudentList = [];
+        let flag = -1;
+        this.students.forEach((student, index) => {
+            if (student.id == id) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        });
+        console.table(newStudentList);
+    }
+    searchStudentByName(name) {
+        let newStudentList = [];
+        let flag = -1;
+        this.students.forEach((student, index) => {
+            if (student.name == name) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        });
+        console.table(newStudentList);
+    }
+    searchStudentByFaculty(faculty) {
+        let newStudentList = [];
+        let flag = -1;
+        this.students.forEach((student, index) => {
+            if (student.faculty == faculty) {
+                newStudentList.push(this.students[index]);
+                flag++;
+            }
+        });
+        console.table(newStudentList);
+    }
     updateTeacher(name, newTeacher) {
         this.teachers.forEach((teacher, index) => {
             if (teacher.name == name) {
