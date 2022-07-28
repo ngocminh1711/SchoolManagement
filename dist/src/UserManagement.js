@@ -12,6 +12,9 @@ class UserManagement {
     addAdmin(admin) {
         return this.admins.push(admin);
     }
+    addUser(user) {
+        return this.users.push(user);
+    }
     updateAdmin(id, newId) {
         this.admins.forEach((admin, index) => {
             if (admin.id === id) {
@@ -20,10 +23,19 @@ class UserManagement {
         });
         return this.admins;
     }
-    checkAccount(id, password) {
+    checkAccountAdmin(id, password) {
         let flag = false;
         this.admins.forEach((admin, index) => {
             if (admin.id == id && admin.password == password) {
+                return flag = true;
+            }
+        });
+        return flag;
+    }
+    checkAccountUser(id, password) {
+        let flag = false;
+        this.users.forEach((user, index) => {
+            if (user.id == id && user.password == password) {
                 return flag = true;
             }
         });
