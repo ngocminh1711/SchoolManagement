@@ -97,6 +97,14 @@ export class SchoolManagement {
             return this.teachers[index];
         })
     }
+    updateStudent(name: string, newStudent: Student) {
+        this.students.forEach((student,index) => {
+            if(student.name == name) {
+                this.students[index] = newStudent;
+            }
+            return this.students[index];
+        })
+    }
     updateWage(index: number, newWage: WageOfTeacher) {
         this.wages[index] = newWage;
     }
@@ -153,13 +161,13 @@ export class SchoolManagement {
     rankedFaculty () {
         this.students.forEach((student,index) =>{
             if(student.score > 8){
-                console.log('Sinh viên '+ this.students[index].name +this.students[index].faculty +' xếp hạng A');
+                console.log('Sinh viên '+ this.students[index].name+ ' học Khoa' +this.students[index].faculty +' xếp hạng A');
             }
             else if (student.score >6 && student.score <=8) {
-                console.log('Sinh viên '+ this.students[index].name  +this.students[index].faculty +' xếp hạng B');
+                console.log('Sinh viên '+ this.students[index].name+ ' học Khoa'  +this.students[index].faculty +' xếp hạng B');
             }
             else {
-                console.log('Sinh viên ' + this.students[index].name + 'học Khoa' +this.students[index].faculty + 'xếp hạng C');
+                console.log('Sinh viên ' + this.students[index].name + ' học Khoa' +this.students[index].faculty + 'xếp hạng C');
             }
         })
     }
