@@ -6,7 +6,7 @@ export class UserManagement {
     users: User[] = [];
 
     showAccountAdmin() {
-        return this.admins;
+        console.log(this.admins);
     }
 
     addAdmin(admin: Admin) {

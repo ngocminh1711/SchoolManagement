@@ -6,6 +6,8 @@ import {SchoolManagement} from "./src/SchoolManagement";
 import {Student} from "./src/Student";
 import {Teacher} from "./src/Teacher";
 import {WageOfTeacher} from "./src/WageOfTeacher";
+import {RegexId} from "./src/regex/RegexId";
+import {RegexPassword} from "./src/regex/RegexPassword";
 
 
 let userManagement = new UserManagement();
@@ -19,7 +21,7 @@ let student2 = new Student('A01', 'Minh', 25, 'Cong Nghe Thong Tin', 9);
 let teacher1 = new Teacher('T01', 'Hoang Dao Thuy', 30, 'Quan Tri Kinh Doanh', 28);
 let teacher2 = new Teacher('T02', 'Vu Minh Phuong', 35, 'Cong Nghe Thong Tin', 26);
 let teacher3 = new Teacher('T03', 'Vu Trong Phung', 32, 'Cong Nghe Thong Tin', 25);
-let wage = new WageOfTeacher(300000, 200000)
+let wage = new WageOfTeacher(300000, 200000, 100000, 150000)
 schoolManagement.addWage(wage);
 schoolManagement.addStudent(student1);
 schoolManagement.addStudent(student2);
@@ -36,8 +38,7 @@ function inputStudent() {
     let ageStudent = +rl.question('Nhập tuổi sinh viên: ');
     let facutlyStudent = rl.question('Nhập tên Khoa: ');
     let scoreStudent = +rl.question('Nhập điểm: ');
-    let student = new Student(idStudent, nameStudent, ageStudent, facutlyStudent, scoreStudent);
-    return student;
+    return new Student(idStudent, nameStudent, ageStudent, facutlyStudent, scoreStudent);
 }
 
 function inputTeacher() {
@@ -46,8 +47,7 @@ function inputTeacher() {
     let age = +rl.question('Nhập tuổi Giáo Viên: ');
     let facutly = rl.question('Nhập tên Khoa: ');
     let workday = +rl.question('Nhập số ngày công: ')
-    let teacher = new Teacher(id, name, age, facutly, workday);
-    return teacher;
+    return new Teacher(id, name, age, facutly, workday);
 }
 
 function createNewTeacher() {
@@ -103,15 +103,18 @@ function menu() {
     console.log('3.Menu of Teacher');
     console.log('4.Menu of Student');
     console.log('5.Sắp xếp thông tin');
-    console.log('6.Tạo mới account admin')
-    console.log('7.Back');
+    console.log('6.Tạo mới account admin');
+    console.log('7.Tạo mới account user');
+    console.log('8.Back');
 }
 
 function inputWage() {
-    let index = +rl.question('Nhập vị trí muốn thay đổi: ');
+    let index = +rl.question('Nhập 0 để thay đổi: ');
     let wageCNTT = +rl.question('Nhập lương CNTT muốn thay đổi: ');
     let wageQTKD = +rl.question('Nhập lương QTKD muốn thay đổi: ');
-    let newWage = new WageOfTeacher(wageCNTT, wageQTKD);
+    let wageDuLich = +rl.question('Nhập lương khoa Du Lịch muốn thay đổi: ');
+    let wageKeToan = +rl.question('Nhập lương khoa Kế toán muốn thay đổi: ');
+    let newWage = new WageOfTeacher(wageCNTT, wageQTKD, wageDuLich, wageKeToan);
     return {index, newWage};
 }
 
@@ -126,26 +129,38 @@ function showStudent() {
     schoolManagement.showInfoStudent();
 }
 
+function searchTeacherID() {
+    console.log('-----Tìm Kiếm Theo Id-----');
+    let idSearchTeacher = rl.question('Nhập Id Giáo Viên: ');
+    schoolManagement.searchTeacherByID(idSearchTeacher);
+}
+
+function searchTeacherName() {
+    console.log('-----Tìm Kiếm Theo Tên-----');
+    let nameSearchTeacher = rl.question('Nhập Tên Giáo Viên: ');
+    schoolManagement.searchTeacherByName(nameSearchTeacher);
+}
+
+function searchTeacherFaculty() {
+    console.log('-----Tìm Kiếm Theo Khoa-----');
+    let facutlySearchTeacher = rl.question('Nhập Khoa Giáo Viên: ');
+    schoolManagement.searchTeacherByFaculty(facutlySearchTeacher);
+}
+
 function searchTeacher() {
     menuOfSearchTeacher();
     let choiceOfSearch = +rl.question('Mời nhập lựa chọn: ')
     switch (choiceOfSearch) {
-        case 1:
-            console.log('-----Tìm Kiếm Theo Id-----');
-            let idSearchTeacher = rl.question('Nhập Id Giáo Viên: ');
-            schoolManagement.searchTeacherByID(idSearchTeacher);
+        case searchOfSearch.SEARCHBYID:
+            searchTeacherID();
             break;
-        case 2:
-            console.log('-----Tìm Kiếm Theo Tên-----');
-            let nameSearchTeacher = rl.question('Nhập Tên Giáo Viên: ');
-            schoolManagement.searchTeacherByName(nameSearchTeacher);
+        case searchOfSearch.SEARCHBYNAME:
+            searchTeacherName();
             break;
-        case 3:
-            console.log('-----Tìm Kiếm Theo Khoa-----');
-            let facutlySearchTeacher = rl.question('Nhập Khoa Giáo Viên: ');
-            schoolManagement.searchTeacherByFaculty(facutlySearchTeacher);
+        case searchOfSearch.SEARCHBYFACULTY:
+            searchTeacherFaculty();
             break;
-        case 4:
+        case searchOfSearch.BACK:
             break;
     }
 }
@@ -158,7 +173,6 @@ function deleteTeacher() {
 
 function editWage() {
     console.log('-----Sửa Lương Nhân viên-----')
-    console.log('Bấm vị trí muốn sửa lương của các khoa');
     let {index, newWage} = inputWage();
     schoolManagement.updateWage(index, newWage);
 }
@@ -179,50 +193,64 @@ function menuTeacher() {
     menuOfTeacher();
     let choiceOfTeacher = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfTeacher) {
-        case 1:
+        case enumTeacher.CREATETEACHER:
             console.log('-----Tạo Giáo Viên Mới-----');
             createNewTeacher();
             break;
-        case 2:
+        case enumTeacher.SEARCHTEACHER:
             searchTeacher();
             break;
-        case 3:
+        case enumTeacher.DELETEATEACHER:
             deleteTeacher();
             break;
-        case 4:
+        case enumTeacher.EDITWAGE:
             editWage();
             break;
-        case 5:
+        case enumTeacher.TOTALWAGE_TEACHER:
             totalWageTeacher();
             break;
-        case 6:
+        case enumTeacher.EDITINFOTEACHER:
             editInfoTeacher();
             break;
-        case 7:
+        case enumTeacher.BACK:
             break;
         default:
             console.log("Mời nhập lại");
     }
 }
 
+function searchStudentID() {
+    console.log('-----Tìm Kiếm Theo Id-----');
+    let idSearchStudent = rl.question('Nhập Id Sinh Viên: ');
+    schoolManagement.searchStudentByID(idSearchStudent);
+}
+
+function searchStudentName() {
+    console.log('-----Tìm Kiếm Theo Tên-----');
+    let nameSearchStudent = rl.question('Nhập Tên Sinh Viên: ');
+    schoolManagement.searchStudentByName(nameSearchStudent);
+}
+
+function searchStudentFaculty() {
+    console.log('-----Tìm Kiếm Theo Khoa-----');
+    let facutlySearchStudent = rl.question('Nhập Khoa Sinh Viên: ');
+    schoolManagement.searchStudentByFaculty(facutlySearchStudent);
+}
+
 function searchStudent() {
     menuOfSearchStudent();
     let choiceOfSearchStudent = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfSearchStudent) {
-        case 1:
-            console.log('-----Tìm Kiếm Theo Id-----');
-            let idSearchStudent = rl.question('Nhập Id Sinh Viên: ');
-            schoolManagement.searchStudentByID(idSearchStudent);
+        case searchOfSearch.SEARCHBYID:
+            searchStudentID();
             break;
-        case 2:
-            console.log('-----Tìm Kiếm Theo Tên-----');
-            let nameSearchStudent = rl.question('Nhập Tên Sinh Viên: ');
-            schoolManagement.searchStudentByName(nameSearchStudent);
+        case searchOfSearch.SEARCHBYNAME:
+            searchStudentName();
             break;
-        case 3:
-            console.log('-----Tìm Kiếm Theo Khoa-----');
-            let facutlySearchStudent = rl.question('Nhập Khoa Sinh Viên: ');
-            schoolManagement.searchStudentByFaculty(facutlySearchStudent);
+        case searchOfSearch.SEARCHBYFACULTY:
+            searchStudentFaculty();
+            break;
+        case searchOfSearch.BACK:
             break;
     }
 }
@@ -243,22 +271,22 @@ function menuStudent() {
     menuOfStudent();
     let choiceOfStudent = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfStudent) {
-        case 1:
+        case enumStudent.CREATESTUDENT:
             createNewStudent();
             break;
-        case 2:
+        case enumStudent.SEARCHSTUDENT:
             searchStudent();
             break;
-        case 3:
+        case enumStudent.DELETEASTUDENT:
             deleteStudent();
             break;
-        case 4:
+        case enumStudent.EDITSTUDENT:
             editStudent();
             break;
-        case 5:
+        case enumStudent.RANKED:
             schoolManagement.rankedFaculty()
             break;
-        case 0:
+        case enumStudent.BACK:
             break;
     }
 }
@@ -271,10 +299,29 @@ function sortFacutly() {
 
 function createAccount() {
     console.log('-----Tạo mới tài khoản-----');
+    let regexid = new RegexId()
     let id = rl.question('Enter new ID: ');
+    if (regexid.checkRegexId(id)) {
+    } else {
+        console.log('Mời nhập lại Id')
+        return id;
+    }
+    let regexpassword = new RegexPassword();
     let password = rl.question('Enter new password: ');
+    if (regexpassword.checkRegexPassword(password)) {
+    } else {
+        console.log('Mời nhập lại password');
+        return password;
+    }
     let newAccount = new Admin(id, password);
     userManagement.addAdmin(newAccount);
+}
+
+function createUser() {
+    let id = rl.question('Nhập id: ');
+    let password = rl.question('Nhập password: ');
+    let newUser = new User(id, password);
+    userManagement.addUser(newUser);
 }
 
 function menuOfAdmin() {
@@ -302,9 +349,13 @@ function menuOfAdmin() {
                 createAccount();
                 break;
             case 7:
+                console.log('-----Tạo Tài Khoản User-----');
+                createUser();
+                break;
+            case 8:
                 break;
         }
-    } while(choiceOfAdmin != 7)
+    } while (choiceOfAdmin != 8)
 
 }
 
@@ -327,7 +378,7 @@ function menuOfUser() {
             showStudent()
             break;
         case 3:
-           searchStudent()
+            searchStudent()
             break;
         case 4:
             searchTeacher()
@@ -342,10 +393,13 @@ function MenuOfSignIn() {
     console.log('2.Exiting');
 }
 
-function inputAdmin() {
-    let id = rl.question('Nhập id: ');
-    let password = rl.question('Nhập password: ');
-    return {id, password};
+function checkTypeId() {
+
+    let id = rl.question('Nhập ID: ');
+    let regex = new RegexId()
+    if (regex.checkRegexId(id)) {
+        return id;
+    }
 }
 
 function signIn() {
@@ -368,6 +422,9 @@ while (choice != 2) {
             signIn();
             break;
         case 2:
+            break;
+        case 3:
+            userManagement.showAccountAdmin()
             break;
     }
 }
