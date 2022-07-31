@@ -16,15 +16,34 @@ export class UserManagement {
         return this.users.push(user);
     }
 
-    updateAdmin(id: string, newId: Admin) {
+    updateAdminId(id: string, newId: string) {
         this.admins.forEach((admin, index) => {
-            if (admin.id === id) {
-                this.admins[index] = newId;
+            if (admin.id == id) {
+                admin.id = newId;
+            }
+            return admin.id;
+        })
+    }
+    updateAdminPassword(password: string, newPassword: string) {
+        this.admins.forEach((admin, index) => {
+            if (admin.password !== password) {
+                console.log ('Mật khẩu cũ không đúng, mời nhập lại mật khẩu!');
+            }
+            else if (admin.password == password) {
+                admin.password = newPassword;
             }
         })
-        return this.admins;
     }
-
+    updateUserPassword(password: string, newPassword: string) {
+        this.users.forEach((user, index) => {
+            if (user.password !== password) {
+                console.log ('Mật khẩu cũ không đúng, mời nhập lại mật khẩu!');
+            }
+            else if (user.password == password) {
+                user.password = newPassword;
+            }
+        })
+    }
     checkAccountAdmin(id: string, password: string): boolean {
         let flag = false;
         this.admins.forEach((admin, index) => {

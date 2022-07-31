@@ -1,45 +1,29 @@
 export class WageOfTeacher {
-    private _wageCNTT: number;
-    private _wageKTQD: number;
-    private _wageDulich: number;
-    private _wageKeToan: number;
-    constructor(wageCNTT: number,wageKTQD: number,wageDulich: number,wageKeToan: number) {
-        this._wageCNTT = wageCNTT;
-        this._wageKTQD = wageKTQD;
-        this._wageKeToan =wageKeToan;
-        this._wageDulich =wageDulich;
+    private _wageValue: number;
+    private _name: string;
+
+
+    constructor(wage: number,name: string) {
+        this._wageValue = wage;
+        this._name = name;
     }
 
 
-    get wageDulich(): number {
-        return this._wageDulich;
+    get name(): string {
+        return this._name;
     }
 
-    set wageDulich(value: number) {
-        this._wageDulich = value;
+    set name(value: string) {
+        this._name = value;
     }
 
-    get wageKeToan(): number {
-        return this._wageKeToan;
+    get wageValue(): number {
+        return this._wageValue;
     }
 
-    set wageKeToan(value: number) {
-        this._wageKeToan = value;
+    set wageValue(value: number) {
+        this._wageValue = value;
     }
 
-    get wageCNTT(): number {
-        return this._wageCNTT;
-    }
 
-    set wageCNTT(value: number) {
-        this._wageCNTT = value;
-    }
-
-    get wageKTQD(): number {
-        return this._wageKTQD;
-    }
-
-    set wageKTQD(value: number) {
-        this._wageKTQD = value;
-    }
 }

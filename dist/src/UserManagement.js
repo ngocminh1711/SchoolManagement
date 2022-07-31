@@ -15,13 +15,33 @@ class UserManagement {
     addUser(user) {
         return this.users.push(user);
     }
-    updateAdmin(id, newId) {
+    updateAdminId(id, newId) {
         this.admins.forEach((admin, index) => {
-            if (admin.id === id) {
-                this.admins[index] = newId;
+            if (admin.id == id) {
+                admin.id = newId;
+            }
+            return admin.id;
+        });
+    }
+    updateAdminPassword(password, newPassword) {
+        this.admins.forEach((admin, index) => {
+            if (admin.password !== password) {
+                console.log('Mật khẩu cũ không đúng, mời nhập lại mật khẩu!');
+            }
+            else if (admin.password == password) {
+                admin.password = newPassword;
             }
         });
-        return this.admins;
+    }
+    updateUserPassword(password, newPassword) {
+        this.users.forEach((user, index) => {
+            if (user.password !== password) {
+                console.log('Mật khẩu cũ không đúng, mời nhập lại mật khẩu!');
+            }
+            else if (user.password == password) {
+                user.password = newPassword;
+            }
+        });
     }
     checkAccountAdmin(id, password) {
         let flag = false;

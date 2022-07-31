@@ -2,35 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WageOfTeacher = void 0;
 class WageOfTeacher {
-    constructor(wageCNTT, wageKTQD, wageDulich, wageKeToan) {
-        this._wageCNTT = wageCNTT;
-        this._wageKTQD = wageKTQD;
-        this._wageKeToan = wageKeToan;
-        this._wageDulich = wageDulich;
+    constructor(wage, name) {
+        this._wageValue = wage;
+        this._name = name;
     }
-    get wageDulich() {
-        return this._wageDulich;
+    get name() {
+        return this._name;
     }
-    set wageDulich(value) {
-        this._wageDulich = value;
+    set name(value) {
+        this._name = value;
     }
-    get wageKeToan() {
-        return this._wageKeToan;
+    get wageValue() {
+        return this._wageValue;
     }
-    set wageKeToan(value) {
-        this._wageKeToan = value;
-    }
-    get wageCNTT() {
-        return this._wageCNTT;
-    }
-    set wageCNTT(value) {
-        this._wageCNTT = value;
-    }
-    get wageKTQD() {
-        return this._wageKTQD;
-    }
-    set wageKTQD(value) {
-        this._wageKTQD = value;
+    set wageValue(value) {
+        this._wageValue = value;
     }
 }
 exports.WageOfTeacher = WageOfTeacher;

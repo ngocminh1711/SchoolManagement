@@ -33,6 +33,7 @@ const Teacher_1 = require("./src/Teacher");
 const WageOfTeacher_1 = require("./src/WageOfTeacher");
 const RegexId_1 = require("./src/regex/RegexId");
 const RegexPassword_1 = require("./src/regex/RegexPassword");
+const enum_1 = require("./src/enum");
 let userManagement = new UserManagement_1.UserManagement();
 let schoolManagement = new SchoolManagement_1.SchoolManagement();
 let admin = new Admin_1.Admin('admin', 'admin');
@@ -44,8 +45,12 @@ let student2 = new Student_1.Student('A01', 'Minh', 25, 'Cong Nghe Thong Tin', 9
 let teacher1 = new Teacher_1.Teacher('T01', 'Hoang Dao Thuy', 30, 'Quan Tri Kinh Doanh', 28);
 let teacher2 = new Teacher_1.Teacher('T02', 'Vu Minh Phuong', 35, 'Cong Nghe Thong Tin', 26);
 let teacher3 = new Teacher_1.Teacher('T03', 'Vu Trong Phung', 32, 'Cong Nghe Thong Tin', 25);
-let wage = new WageOfTeacher_1.WageOfTeacher(300000, 200000, 100000, 150000);
-schoolManagement.addWage(wage);
+let wageCNTT = new WageOfTeacher_1.WageOfTeacher(300000, 'Cong Nghe Thong Tin');
+let wageQTKD = new WageOfTeacher_1.WageOfTeacher(400000, 'Quan Tri Kinh Doanh');
+let wageDuLich = new WageOfTeacher_1.WageOfTeacher(500000, 'Du Lich');
+schoolManagement.addWage(wageCNTT);
+schoolManagement.addWage(wageQTKD);
+schoolManagement.addWage(wageDuLich);
 schoolManagement.addStudent(student1);
 schoolManagement.addStudent(student2);
 schoolManagement.addTeacher(teacher1);
@@ -117,16 +122,8 @@ function menu() {
     console.log('5.Sắp xếp thông tin');
     console.log('6.Tạo mới account admin');
     console.log('7.Tạo mới account user');
-    console.log('8.Back');
-}
-function inputWage() {
-    let index = +rl.question('Nhập 0 để thay đổi: ');
-    let wageCNTT = +rl.question('Nhập lương CNTT muốn thay đổi: ');
-    let wageQTKD = +rl.question('Nhập lương QTKD muốn thay đổi: ');
-    let wageDuLich = +rl.question('Nhập lương khoa Du Lịch muốn thay đổi: ');
-    let wageKeToan = +rl.question('Nhập lương khoa Kế toán muốn thay đổi: ');
-    let newWage = new WageOfTeacher_1.WageOfTeacher(wageCNTT, wageQTKD, wageDuLich, wageKeToan);
-    return { index, newWage };
+    console.log('8.Thay đổi mật khẩu account admin');
+    console.log('9.Back');
 }
 function showTeacher() {
     console.log('-----Danh sách Giáo Viên-----');
@@ -155,16 +152,16 @@ function searchTeacher() {
     menuOfSearchTeacher();
     let choiceOfSearch = +rl.question('Mời nhập lựa chọn: ');
     switch (choiceOfSearch) {
-        case searchOfSearch.SEARCHBYID:
+        case enum_1.searchOfSearch.SEARCHBYID:
             searchTeacherID();
             break;
-        case searchOfSearch.SEARCHBYNAME:
+        case enum_1.searchOfSearch.SEARCHBYNAME:
             searchTeacherName();
             break;
-        case searchOfSearch.SEARCHBYFACULTY:
+        case enum_1.searchOfSearch.SEARCHBYFACULTY:
             searchTeacherFaculty();
             break;
-        case searchOfSearch.BACK:
+        case enum_1.searchOfSearch.BACK:
             break;
     }
 }
@@ -175,8 +172,9 @@ function deleteTeacher() {
 }
 function editWage() {
     console.log('-----Sửa Lương Nhân viên-----');
-    let { index, newWage } = inputWage();
-    schoolManagement.updateWage(index, newWage);
+    let nameOfWage = rl.question('Nhập tên khoa muốn sửa lương: ');
+    let valueOfWage = +rl.question('Nhập lương/ngày muốn sửa: ');
+    schoolManagement.updateWage(nameOfWage, valueOfWage);
 }
 function totalWageTeacher() {
     console.log('-----Lương của giáo viên-----');
@@ -192,26 +190,26 @@ function menuTeacher() {
     menuOfTeacher();
     let choiceOfTeacher = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfTeacher) {
-        case enumTeacher.CREATETEACHER:
+        case enum_1.enumTeacher.CREATETEACHER:
             console.log('-----Tạo Giáo Viên Mới-----');
             createNewTeacher();
             break;
-        case enumTeacher.SEARCHTEACHER:
+        case enum_1.enumTeacher.SEARCHTEACHER:
             searchTeacher();
             break;
-        case enumTeacher.DELETEATEACHER:
+        case enum_1.enumTeacher.DELETEATEACHER:
             deleteTeacher();
             break;
-        case enumTeacher.EDITWAGE:
+        case enum_1.enumTeacher.EDITWAGE:
             editWage();
             break;
-        case enumTeacher.TOTALWAGE_TEACHER:
+        case enum_1.enumTeacher.TOTALWAGE_TEACHER:
             totalWageTeacher();
             break;
-        case enumTeacher.EDITINFOTEACHER:
+        case enum_1.enumTeacher.EDITINFOTEACHER:
             editInfoTeacher();
             break;
-        case enumTeacher.BACK:
+        case enum_1.enumTeacher.BACK:
             break;
         default:
             console.log("Mời nhập lại");
@@ -236,16 +234,16 @@ function searchStudent() {
     menuOfSearchStudent();
     let choiceOfSearchStudent = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfSearchStudent) {
-        case searchOfSearch.SEARCHBYID:
+        case enum_1.searchOfSearch.SEARCHBYID:
             searchStudentID();
             break;
-        case searchOfSearch.SEARCHBYNAME:
+        case enum_1.searchOfSearch.SEARCHBYNAME:
             searchStudentName();
             break;
-        case searchOfSearch.SEARCHBYFACULTY:
+        case enum_1.searchOfSearch.SEARCHBYFACULTY:
             searchStudentFaculty();
             break;
-        case searchOfSearch.BACK:
+        case enum_1.searchOfSearch.BACK:
             break;
     }
 }
@@ -263,22 +261,22 @@ function menuStudent() {
     menuOfStudent();
     let choiceOfStudent = +rl.question('Nhập lựa chọn: ');
     switch (choiceOfStudent) {
-        case enumStudent.CREATESTUDENT:
+        case enum_1.enumStudent.CREATESTUDENT:
             createNewStudent();
             break;
-        case enumStudent.SEARCHSTUDENT:
+        case enum_1.enumStudent.SEARCHSTUDENT:
             searchStudent();
             break;
-        case enumStudent.DELETEASTUDENT:
+        case enum_1.enumStudent.DELETEASTUDENT:
             deleteStudent();
             break;
-        case enumStudent.EDITSTUDENT:
+        case enum_1.enumStudent.EDITSTUDENT:
             editStudent();
             break;
-        case enumStudent.RANKED:
+        case enum_1.enumStudent.RANKED:
             schoolManagement.rankedFaculty();
             break;
-        case enumStudent.BACK:
+        case enum_1.enumStudent.BACK:
             break;
     }
 }
@@ -291,10 +289,11 @@ function createAccount() {
     console.log('-----Tạo mới tài khoản-----');
     let regexid = new RegexId_1.RegexId();
     let id = rl.question('Enter new ID: ');
-    if (regexid.checkRegexId(id)) {
+    if (regexid.checkRegexId(id) && id !== admin.id) {
     }
     else {
-        console.log('Mời nhập lại Id');
+        console.log('---Id không đúng định dạng hoặc bị trùng lặp---');
+        console.log('---Xin háy chọn lại Id khác---');
         return id;
     }
     let regexpassword = new RegexPassword_1.RegexPassword();
@@ -302,7 +301,8 @@ function createAccount() {
     if (regexpassword.checkRegexPassword(password)) {
     }
     else {
-        console.log('Mời nhập lại password');
+        console.log('---Password không đúng định dạng---');
+        console.log('---Xin hãy chọn lại password khác---');
         return password;
     }
     let newAccount = new Admin_1.Admin(id, password);
@@ -314,65 +314,85 @@ function createUser() {
     let newUser = new User_1.User(id, password);
     userManagement.addUser(newUser);
 }
+function updatePasswordAdmin() {
+    let password = rl.question('Nhập password cũ: ');
+    let newPassword = rl.question('Nhập password mới: ');
+    userManagement.updateAdminPassword(password, newPassword);
+}
+function updatePasswordUser() {
+    let password = rl.question('Nhập password cũ: ');
+    let newPassword = rl.question('Nhập password mới: ');
+    userManagement.updateUserPassword(password, newPassword);
+}
 function menuOfAdmin() {
     let choiceOfAdmin;
     do {
         menu();
         choiceOfAdmin = +rl.question('Mời nhập lựa chọn: ');
         switch (choiceOfAdmin) {
-            case 1:
+            case enum_1.enumAdmin.SHOWTEACHER:
                 showTeacher();
                 break;
-            case 2:
+            case enum_1.enumAdmin.SHOWSTUDENT:
                 showStudent();
                 break;
-            case 3:
+            case enum_1.enumAdmin.MENUTEACHER:
                 menuTeacher();
                 break;
-            case 4:
+            case enum_1.enumAdmin.MENUSTUDENT:
                 menuStudent();
                 break;
-            case 5:
+            case enum_1.enumAdmin.SORTFACUTLY:
                 sortFacutly();
                 break;
-            case 6:
+            case enum_1.enumAdmin.CREATEACCOUNT:
                 createAccount();
                 break;
-            case 7:
+            case enum_1.enumAdmin.CREATEUSER:
                 console.log('-----Tạo Tài Khoản User-----');
                 createUser();
                 break;
-            case 8:
+            case enum_1.enumAdmin.UPDATEPASSWORD:
+                updatePasswordAdmin();
+                break;
+            case enum_1.enumAdmin.EXIT:
                 break;
         }
-    } while (choiceOfAdmin != 8);
+    } while (choiceOfAdmin != enum_1.enumAdmin.EXIT);
 }
 function menuUser() {
     console.log('1.Hiển thị danh sách Giáo Viên');
     console.log('2.Hiển thị danh sách Sinh Viên');
     console.log('3.Tìm kiếm sinh viên.');
     console.log('4.Tìm kiếm giáo viên');
-    console.log('5.Back');
+    console.log('5.Thay đổi mật khẩu');
+    console.log('6.Back');
 }
 function menuOfUser() {
-    menuUser();
-    let choiceOfUser = +rl.question('Nhập lựa chọn: ');
-    switch (choiceOfUser) {
-        case 1:
-            showTeacher();
-            break;
-        case 2:
-            showStudent();
-            break;
-        case 3:
-            searchStudent();
-            break;
-        case 4:
-            searchTeacher();
-            break;
-        case 5:
-            break;
-    }
+    let choiceOfUser = -1;
+    do {
+        menuUser();
+        let choiceOfUser = +rl.question('Nhập lựa chọn: ');
+        switch (choiceOfUser) {
+            case enum_1.enumUser.SHOWTEACHER:
+                showTeacher();
+                break;
+            case enum_1.enumUser.SHOWSTUDENT:
+                showStudent();
+                break;
+            case enum_1.enumUser.SEARCHSTUDENT:
+                searchStudent();
+                break;
+            case enum_1.enumUser.SEARCHTEACHER:
+                searchTeacher();
+                break;
+            case enum_1.enumUser.CHANGPASSWORD:
+                updatePasswordUser();
+                break;
+            case enum_1.enumUser.EXIT:
+                break;
+        }
+    } while (choiceOfUser == enum_1.enumUser.EXIT);
 }
 function MenuOfSignIn() {
     console.log('1.Sign in');
@@ -402,10 +422,10 @@ while (choice != 2) {
     MenuOfSignIn();
     choice = +rl.question('Nhập lựa chọn: ');
     switch (choice) {
-        case 1:
+        case enum_1.enumSignIn.SIGNIN:
             signIn();
             break;
-        case 2:
+        case enum_1.enumSignIn.EXIT:
             break;
         case 3:
             userManagement.showAccountAdmin();

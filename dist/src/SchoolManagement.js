@@ -104,8 +104,14 @@ class SchoolManagement {
             return this.students[index];
         });
     }
-    updateWage(index, newWage) {
-        this.wages[index] = newWage;
+    updateWage(name, wageValue) {
+        this.wages.forEach((wage, index) => {
+            if (wage.name === name) {
+                wage.wageValue = wageValue;
+            }
+        });
+        console.table(this.wages);
+        return this.wages;
     }
     sortByFaculty(faculty) {
         let newSortByFaculty = [];
@@ -146,21 +152,21 @@ class SchoolManagement {
     totalWorkDay() {
         let totalWorkDay = 0;
         this.teachers.forEach((teacher, index) => {
-            this.wages.forEach((wage) => {
-                if (teacher.faculty == 'Cong Nghe Thong Tin') {
-                    totalWorkDay = this.teachers[index].workday * wage.wageCNTT;
+            this.wages.forEach((wage, index) => {
+                if (wage.name == 'Cong Nghe Thong Tin' && teacher.faculty == 'Cong Nghe Thong Tin') {
+                    totalWorkDay = teacher.workday * wage.wageValue;
                 }
-                else if (teacher.faculty == 'Quan Tri Kinh Doanh') {
-                    totalWorkDay = this.teachers[index].workday * wage.wageKTQD;
+                else if (wage.name == 'Quan Tri Kinh Doanh' && teacher.faculty == 'Quan Tri Kinh Doanh') {
+                    totalWorkDay = teacher.workday * wage.wageValue;
                 }
-                else if (teacher.faculty == 'Du Lich') {
-                    totalWorkDay = this.teachers[index].workday * wage.wageDulich;
+                else if (wage.name == 'Ke Toan' && teacher.faculty == 'Ke Toan') {
+                    totalWorkDay = teacher.workday * wage.wageValue;
                 }
-                else if (teacher.faculty == 'Ke Toan') {
-                    totalWorkDay = this.teachers[index].workday * wage.wageKeToan;
+                else if (wage.name == 'Du Lich' && teacher.faculty == 'Du Lich') {
+                    totalWorkDay = teacher.workday * wage.wageValue;
                 }
             });
-            console.log('Lương của giáo viên ' + this.teachers[index].name + ' là: ' + totalWorkDay);
+            console.log(this.teachers[index].name + ' khoa ' + this.teachers[index].faculty + ' đạt được số lương trong tháng là: ' + totalWorkDay);
         });
     }
     rankedFaculty() {
