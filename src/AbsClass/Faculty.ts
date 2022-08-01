@@ -1,7 +1,7 @@
-export  class Faculty {
+export class Faculty {
     private _name: string;
-    private _score: number;
-    constructor(name: string, score: number) {
+    private _score?: number | undefined;
+    constructor(name: string, score?: number | undefined) {
         this._name = name;
         this._score = score;
     }
@@ -14,11 +14,11 @@ export  class Faculty {
         this._name = value;
     }
 
-    get score(): number {
+    get score(): number | undefined {
         return this._score;
     }
 
-    set score(value: number) {
+    set score(value: number | undefined) {
         this._score = value;
     }
 }

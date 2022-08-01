@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Subject = void 0;
-class Subject {
+exports.Faculty = void 0;
+class Faculty {
     constructor(name, score) {
         this._name = name;
         this._score = score;
@@ -19,4 +19,4 @@ class Subject {
         this._score = value;
     }
 }
-exports.Subject = Subject;
+exports.Faculty = Faculty;

@@ -8,11 +8,11 @@ export enum searchOfSearch {
 export enum enumTeacher {
     CREATETEACHER = 1,
     SEARCHTEACHER = 2,
-    DELETEATEACHER,
-    EDITWAGE,
-    TOTALWAGE_TEACHER,
-    EDITINFOTEACHER,
-    BACK,
+    DELETEATEACHER = 3,
+    EDITWAGE = 4,
+    TOTALWAGE_TEACHER = 5,
+    EDITINFOTEACHER = 6,
+    BACK = 7,
 }
 
 export enum enumStudent {
@@ -32,9 +32,10 @@ export enum enumAdmin {
     SORTFACUTLY = 5,
     CREATEACCOUNT = 6,
     CREATEUSER = 7,
-    UPDATEPASSWORD,
+    UPDATEPASSWORD = 8,
     EXIT = 9,
 }
+
 export enum enumUser {
     SHOWTEACHER = 1,
     SHOWSTUDENT = 2,
@@ -43,7 +44,8 @@ export enum enumUser {
     CHANGPASSWORD = 5,
     EXIT = 6,
 }
+
 export enum enumSignIn {
-    SIGNIN =1,
-    EXIT =2,
+    SIGNIN = 1,
+    EXIT = 2,
 }
